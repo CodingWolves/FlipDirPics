@@ -59,7 +59,7 @@ namespace FlipThisPic
                 MessageBox.Show("Error Folder not found", "Error");
                 return;
             }
-            System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + FolderPathTextBox.Text + "\"");
+            System.Diagnostics.Process.Start("explorer.exe", FolderPathTextBox.Text);
         }
 
         private void SingleImageRadio_CheckedChanged(object sender, EventArgs e)
@@ -106,32 +106,34 @@ namespace FlipThisPic
             {
                 string imageFolder = FolderPathTextBox.Text;
                 string saveFolder = "";
-                if (!Directory.Exists(imageFolder))
+                if (Directory.Exists(imageFolder))
                 {
-                    MessageBox.Show("Image folder does not exist", "Error");
-                }
-
-                string[] filePaths = Directory.GetFiles(imageFolder);
-                foreach (string filePath in filePaths)
-                {
-                    try { using (Bitmap.FromFile(filePath)) { } }
-                    catch { continue; }
-                    string result = RotateSaveImagePath(filePath);
-                    //Thread th = new Thread(new ParameterizedThreadStart(RotateSaveSingleImage));
-                    //th.Start(filePath);
-
-                    if (saveFolder == "" && result != null)
+                    string[] filePaths = Directory.GetFiles(imageFolder);
+                    foreach (string filePath in filePaths)
                     {
-                        saveFolder = Path.GetDirectoryName(result);
+                        try { using (Bitmap.FromFile(filePath)) { } }
+                        catch { continue; }
+                        string result = RotateSaveImagePath(filePath);
+                        //Thread th = new Thread(new ParameterizedThreadStart(RotateSaveSingleImage));
+                        //th.Start(filePath);
+
+                        if (saveFolder == "" && result != null)
+                        {
+                            saveFolder = Path.GetDirectoryName(result);
+                        }
+                    }
+
+                    if (MessageBox.Show("Rotated Successfully!\nDo you want to open the containing folder?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        if (saveFolder == "")
+                        { System.Diagnostics.Process.Start("explorer.exe", imageFolder); }
+                        else
+                        { System.Diagnostics.Process.Start("explorer.exe", saveFolder); }
                     }
                 }
-
-                if (MessageBox.Show("Rotated Successfully!\nDo you want to open the containing folder?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                else
                 {
-                    if (saveFolder == "")
-                    { System.Diagnostics.Process.Start("explorer.exe", imageFolder); }
-                    else
-                    { System.Diagnostics.Process.Start("explorer.exe", saveFolder); }
+                    MessageBox.Show("Image folder does not exist", "Error");
                 }
             }
             MainGroupBox.Enabled = true;

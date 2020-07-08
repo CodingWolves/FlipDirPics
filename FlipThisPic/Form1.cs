@@ -186,13 +186,12 @@ namespace FlipThisPic
                 string folderPath = SaveToFolderTextBox.Text;
                 if (!Directory.Exists(folderPath))
                 {
-                    folderPath = Path.GetDirectoryName(imagePath) + "\\converted";
+                    folderPath = Path.GetDirectoryName(imagePath) + "\\rotated";
                     Directory.CreateDirectory(folderPath);
                 }
                 savePath = folderPath + "\\r_" + Path.GetFileName(imagePath);
             }
             return savePath;
         }
-
     }
 }

@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FlipThisPic
@@ -34,7 +25,9 @@ namespace FlipThisPic
         private void SelectFolderButton_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(FolderPathTextBox.Text))
+            {
                 FolderDialog.SelectedPath = FolderPathTextBox.Text;
+            }   
             FolderDialog.ShowNewFolderButton = false;
             if (FolderDialog.ShowDialog() == DialogResult.OK)
             {
@@ -46,17 +39,19 @@ namespace FlipThisPic
         {
             if (!File.Exists(ImagePathTextBox.Text))
             {
-                MessageBox.Show("Error File not found", "Error");
+                MessageBox.Show(Resources.ERROR_FOLDER_NOT_FOUND, Resources.ERROR_CAPTION);
                 return;
             }
-            System.Diagnostics.Process.Start("explorer.exe", "/select, \""+ImagePathTextBox.Text+"\"");
+            System.Diagnostics.Process.Start("explorer.exe", 
+                "/select, \"" +
+                ImagePathTextBox.Text+"\"");
         }
 
         private void FolderOpenButton_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(FolderPathTextBox.Text))
             {
-                MessageBox.Show("Error Folder not found", "Error");
+                MessageBox.Show(Resources.ERROR_FOLDER_NOT_FOUND, Resources.ERROR_CAPTION);
                 return;
             }
             System.Diagnostics.Process.Start("explorer.exe", FolderPathTextBox.Text);
@@ -81,14 +76,15 @@ namespace FlipThisPic
         private void SaveToFolderShowButton_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(FolderPathTextBox.Text))
+            {
                 FolderDialog.SelectedPath = FolderPathTextBox.Text;
+            }
             FolderDialog.ShowNewFolderButton = true;
             if (FolderDialog.ShowDialog() == DialogResult.OK)
             {
                 SaveToFolderTextBox.Text = FolderDialog.SelectedPath;
             }
         }
-
 
         private void ConvertButton_Click(object sender, EventArgs e)
         {
@@ -97,9 +93,13 @@ namespace FlipThisPic
             {
                 string savePath = RotateSaveImagePath(ImagePathTextBox.Text);
 
-                if (savePath != null && MessageBox.Show("Rotated Successfully!\nDo you want to open the containing folder?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (savePath != null && MessageBox.Show(
+                    Resources.ROTATE_SUCCESSFULY, 
+                    Resources.SUCCESS_CAPTION, 
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + savePath + "\"");
+                    System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + 
+                        savePath + "\"");
                 }
             }
             else if (ImageFolderRadio.Checked)
@@ -111,8 +111,16 @@ namespace FlipThisPic
                     string[] filePaths = Directory.GetFiles(imageFolder);
                     foreach (string filePath in filePaths)
                     {
-                        try { using (Bitmap.FromFile(filePath)) { } }
-                        catch { continue; }
+                        try
+                        {
+                            using (Image.FromFile(filePath))
+                            {
+                            }
+                        }
+                        catch
+                        {
+                            continue;
+                        }
                         string result = RotateSaveImagePath(filePath);
                         //Thread th = new Thread(new ParameterizedThreadStart(RotateSaveSingleImage));
                         //th.Start(filePath);
@@ -123,17 +131,26 @@ namespace FlipThisPic
                         }
                     }
 
-                    if (MessageBox.Show("Rotated Successfully!\nDo you want to open the containing folder?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show(
+                        Resources.ROTATE_SUCCESSFULY,
+                        Resources.SUCCESS_CAPTION,
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         if (saveFolder == "")
-                        { System.Diagnostics.Process.Start("explorer.exe", imageFolder); }
+                        {
+                            System.Diagnostics.Process.Start("explorer.exe",
+                                imageFolder);
+                        }
                         else
-                        { System.Diagnostics.Process.Start("explorer.exe", saveFolder); }
+                        {
+                            System.Diagnostics.Process.Start("explorer.exe",
+                                saveFolder);
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Image folder does not exist", "Error");
+                    MessageBox.Show(Resources.IMAGE_FOLDER_NOT_EXIST, Resources.ERROR_CAPTION);
                 }
             }
             MainGroupBox.Enabled = true;
@@ -144,7 +161,8 @@ namespace FlipThisPic
         {
             if (!File.Exists(imagePath))
             {
-                MessageBox.Show("Error File not found", "Error");
+                MessageBox.Show(Resources.ERROR_FOLDER_NOT_FOUND, 
+                    Resources.ERROR_CAPTION);
                 return null;
             }
 
@@ -152,18 +170,20 @@ namespace FlipThisPic
 
             using (Image originalImage = Image.FromFile(imagePath))
             {
-                using (Bitmap processedImage = new Bitmap(originalImage)) // uses a lot of memory
+                using (Bitmap processedImage = new Bitmap(originalImage))
+                    // uses a lot of memory
                 {
-                    RotateByAtrributes(processedImage).Save(savePath, originalImage.RawFormat);
+                    RotateByAttributes(processedImage).Save(savePath,
+                        originalImage.RawFormat);
                 }
             }
             return savePath;
         }
 
-        private Bitmap RotateByAtrributes(Image bitmap)
+        private Bitmap RotateByAttributes(Image bitmap)
         {
-            float angle = (float)AngleNumberBox.Value;
-            return ImageRotation.RotateFlip(bitmap, angle, FlipVerticallyCheckBox.Checked, FlipHorizontallyCheckBox.Checked);
+            return ImageRotation.RotateFlip(bitmap, (float)AngleNumberBox.Value,
+                FlipVerticallyCheckBox.Checked, FlipHorizontallyCheckBox.Checked);
         }
 
         private string GetSavePathByAttributes(string imagePath)
@@ -175,7 +195,7 @@ namespace FlipThisPic
                 do
                 {
                     savePath = Path.GetDirectoryName(imagePath) + "\\";
-                    savePath += Path.GetFileNameWithoutExtension(imagePath) + "_" + (++count).ToString();
+                    savePath += Path.GetFileNameWithoutExtension(imagePath) + "_" + ++count;
                     savePath += Path.GetExtension(imagePath);
                 } while (File.Exists(savePath));
             }

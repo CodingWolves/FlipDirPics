@@ -71,6 +71,15 @@ namespace FlipThisPic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No convertion option selected, need to select a single file or folder.
+        /// </summary>
+        internal static string CONVERT_OPTION_NOT_SELECTED {
+            get {
+                return ResourceManager.GetString("CONVERT_OPTION_NOT_SELECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string ERROR_CAPTION {

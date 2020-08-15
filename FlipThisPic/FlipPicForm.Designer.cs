@@ -1,6 +1,6 @@
 ﻿namespace FlipThisPic
 {
-    partial class Form1
+    partial class FlipPicForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlipPicForm));
             this.MainGroupBox = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -119,6 +119,11 @@
             0,
             0,
             0});
+            this.AngleNumberBox.Minimum = new decimal(new int[] {
+            359,
+            0,
+            0,
+            -2147483648});
             this.AngleNumberBox.Name = "AngleNumberBox";
             this.AngleNumberBox.Size = new System.Drawing.Size(50, 20);
             this.AngleNumberBox.TabIndex = 13;
@@ -376,7 +381,7 @@
             // 
             this.ImageSelectDialog.Filter = "Images|*.jpg;*.jpeg;*.bmp;*.tiff;*.png;*.icon;*.ico;*.gif";
             // 
-            // Form1
+            // FlipPicForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -385,7 +390,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Name = "FlipPicForm";
             this.Text = "Flip this pic";
             this.MainGroupBox.ResumeLayout(false);
             this.MainGroupBox.PerformLayout();

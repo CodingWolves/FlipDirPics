@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlipDirPics", "FlipThisPic\FlipDirPics.csproj", "{B5220ABF-9278-4EE7-B675-28E5F48CBEC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlipDirPics", "FlipDirPics.csproj", "{B5220ABF-9278-4EE7-B675-28E5F48CBEC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2C974D1F-C154-489A-8E03-0C2648195CCF}
+		SolutionGuid = {B1431349-B89B-4497-8B9D-E86ED1E6E6D0}
 	EndGlobalSection
 EndGlobal
